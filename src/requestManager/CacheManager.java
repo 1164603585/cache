@@ -13,11 +13,11 @@ public class CacheManager<K, V extends ICacheble> {
     }
 
     public ICacheble QueryCache(K key){
-        Command<K> command = new QueryConmand<K>(count, key);
-        commandManager.put(command);
+        Command<K> command = new QueryConmand<K>(count++, key);
         synchronized (command){
+        	commandManager.put(command);
             try {
-                Thread.currentThread().wait();
+                command.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -26,12 +26,12 @@ public class CacheManager<K, V extends ICacheble> {
     }
 
     public void saveOrUpdateCache(K key, V value){
-        Command<K> command = new InsertCommand<>(count, key, value);
+        Command<K> command = new InsertCommand<>(count++, key, value);
         commandManager.put(command);
     }
 
     public void deleteCache(K key){
-        Command<K> command = new DeleteCommand<>(count, key);
+        Command<K> command = new DeleteCommand<>(count++, key);
         commandManager.put(command);
     }
 

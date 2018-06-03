@@ -11,12 +11,14 @@ public abstract class AbstractCommand<K> implements Command<K> {
 
     public AbstractCommand(int id, K key, ICacheble value){
         this.id = id;
+        this.key = key;
+        this.value = value;
     }
 
     public AbstractCommand(int id, Object key) {
         this.id = id;
         this.key = key;
-        value = null;
+        this.value = null;
     }
 
     @Override

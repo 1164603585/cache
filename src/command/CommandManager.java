@@ -16,6 +16,7 @@ public class CommandManager<K, V extends ICacheble>{
         queue = new ArrayBlockingQueue<Command<K>>(capacity);
         container = new DataContainer<>();
         handler = new Handler();
+        handler.setDaemon(true);
         handler.start();
     }
 
@@ -43,10 +44,21 @@ public class CommandManager<K, V extends ICacheble>{
         @Override
         public void run() {
             Command command = null;
-            command = queue.poll();
-            if(command != null){
-                command.excute(container);
-                command.notifyAll();
+            while(true){
+            	try {
+					command = queue.take();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                if(command != null){
+                    command.excute(container);
+                    synchronized (command) {
+                    	command.notifyAll();
+					}
+                }else{
+                	
+                }
             }
         }
     }
