@@ -14,7 +14,7 @@ public class InsertCommand<K> extends AbstractCommand<K> {
 
     @Override
     public void excute(DataContainer container) {
-        SoftReference<ICacheble> ref = new SoftReference<ICacheble>(value);
+        SoftReference<ICacheble> ref = new SoftReference<ICacheble>(value, container.getReferenceQueue());
         container.saveOrUpdate(key, ref);
     }
 }

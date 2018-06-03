@@ -1,11 +1,12 @@
 package storage;
 
-import entity.ICacheble;
-
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map.Entry;
+
+import entity.ICacheble;
 
 public class DataContainer<K , V extends SoftReference<? extends ICacheble>> {
 
@@ -52,15 +53,21 @@ public class DataContainer<K , V extends SoftReference<? extends ICacheble>> {
                     return false;
             }
         }
-        clearQueue();
         return true;
     }
     
     private void clearQueue(){
-//    	while(queue.poll() != null)
-//    		System.out.println("queue出队");
+    	while(queue.poll() != null);
     }
-
+    
+    public ReferenceQueue<V> getReferenceQueue(){
+    	return queue;
+    }
+    
+    public void clearAll(){
+    	map.clear();
+    }
+    
     public static void main(String[] args) {
 
     }
