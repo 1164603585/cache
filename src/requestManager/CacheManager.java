@@ -3,7 +3,7 @@ package requestManager;
 import command.*;
 import entity.ICacheble;
 
-public class CacheManager<K, V extends ICacheble> {
+public class CacheManager<K, V extends ICacheble> implements RequstManager<K, V>{
 
     private CommandManager<K, V> commandManager;
     private static int count = 0;
